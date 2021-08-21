@@ -1,0 +1,508 @@
+openapi: "3.0.0"
+info:
+  description: "Abfragen von Importzöllen und Wechselkursen"
+  version: "1.0.0"
+  title: "Einfuhrzoll API"
+
+servers:
+  - url: 'https://www.bundesfinanzministerium.de/SiteGlobals/Functions/Apps/retrieve/'
+
+paths:
+  /Kurse/App/KursExport.txt:
+    servers:
+      - url: https://zoll.de/SiteGlobals/Functions/
+    get:
+      parameters:
+        - in: query
+          name: view
+          schema:
+            type: string
+            default: jsonexportkurseZOLLWeb
+          required: true
+        - in: header
+          name: User-Agent
+          schema:
+            type: string
+            default: zollundpost/2 CFNetwork/1220.1 Darwin/20.3.0
+          required: true
+      description: Liste aller Länder mit Risikoeinstufung
+      summary: Währungskurse
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExchangeRates'
+  
+  /kategorien:
+    get:
+      parameters:
+        - in: query
+          name: client
+          schema:
+            type: string
+            default: ZUP
+          required: true
+        - in: query
+          name: lastModifiedDate
+          schema:
+            type: string
+            default: ""
+            description: e.g. 2021-08-16T15:45:06 - returns all changes after this datetime
+          required: false
+        - in: query
+          name: view
+          schema:
+            type: string
+            default: "renderJson[App]"
+          required: true
+        - in: header
+          name: User-Agent
+          schema:
+            type: string
+            default: zollundpost/2 CFNetwork/1220.1 Darwin/20.3.0
+          required: true
+      description: Produktkategoriendatenbank
+      summary: Produktkategorien
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Categories'
+
+  /produkte:
+    get:
+      parameters:
+        - in: query
+          name: client
+          schema:
+            type: string
+            default: ZUP
+          required: true
+        - in: query
+          name: lastModifiedDate
+          schema:
+            type: string
+            default: ""
+            description: e.g. 2021-08-16T15:45:06 - returns all changes after this datetime
+          required: false
+        - in: query
+          name: view
+          schema:
+            type: string
+            default: "renderJson[App]"
+          required: true
+        - in: header
+          name: User-Agent
+          schema:
+            type: string
+            default: zollundpost/2 CFNetwork/1220.1 Darwin/20.3.0
+          required: true
+      description: Produktdatenbank mit Zolltarifen
+      summary: Produkte
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Products'
+
+  /laender:
+    get:
+      parameters:
+        - in: query
+          name: client
+          schema:
+            type: string
+            default: ZUP
+          required: true
+        - in: query
+          name: lastModifiedDate
+          schema:
+            type: string
+            default: ""
+            description: e.g. 2021-08-16T15:45:06 - returns all changes after this datetime
+          required: false
+        - in: query
+          name: view
+          schema:
+            type: string
+            default: "renderJson[App]"
+          required: true
+        - in: header
+          name: User-Agent
+          schema:
+            type: string
+            default: zollundpost/2 CFNetwork/1220.1 Darwin/20.3.0
+          required: true
+      description: Länder
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Countries'
+  /produktgruppen:
+    get:
+      parameters:
+        - in: query
+          name: client
+          schema:
+            type: string
+            default: ZUP
+          required: true
+        - in: query
+          name: lastModifiedDate
+          schema:
+            type: string
+            default: ""
+            description: e.g. 2021-08-16T15:45:06 - returns all changes after this datetime
+          required: false
+        - in: query
+          name: view
+          schema:
+            type: string
+            default: "renderJson[App]"
+          required: true
+        - in: header
+          name: User-Agent
+          schema:
+            type: string
+            default: zollundpost/2 CFNetwork/1220.1 Darwin/20.3.0
+          required: true
+      description: Produktgruppen
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductGroups'
+  
+  /produkteinheiten:
+    get:
+      parameters:
+        - in: query
+          name: client
+          schema:
+            type: string
+            default: ZUP
+          required: true
+        - in: query
+          name: lastModifiedDate
+          schema:
+            type: string
+            default: ""
+            description: e.g. 2021-08-16T15:45:06 - returns all changes after this datetime
+          required: false
+        - in: query
+          name: view
+          schema:
+            type: string
+            default: "renderJson[App]"
+          required: true
+        - in: header
+          name: User-Agent
+          schema:
+            type: string
+            default: zollundpost/2 CFNetwork/1220.1 Darwin/20.3.0
+          required: true
+      description: Produkteinheiten
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductUnits'
+components:
+  schemas:
+      ExchangeRates:
+        type: object
+        properties:
+          kurse: 
+            type: array
+            items: 
+              type: object
+              properties: 
+                kurswert: 
+                  type: number
+                  example: 18.6042
+                iso3: 
+                  type: string
+                  example: EGP
+                name: 
+                  type: string
+                  example: Ägyptisches Pfund
+      Category:
+        type: object
+        properties: 
+          id: 
+            type: string
+            example: 5b86ee6a-12b1-40e6-8a82-0f1a18a1f62d
+          title: 
+            type: string
+            example: Alkohol und alkoholische Getränke
+          image: 
+            type: string
+            example: https://www.bundesfinanzministerium.de/Content/DE/Apps/Items/Images/alkohol.jpg?__blob=normal&v=4
+          alttext: 
+            type: string
+            example: Weinflaschen
+          description_short: 
+            type: string
+            example: Alkohol und alkoholische Getr&auml;nke unterliegen im deutschen Steuergebiet der Verbrauchsteuer und geh&ouml;ren zu den hochsteuerbaren Waren. Daher fallen bei der Einfuhr au&szlig;er Zoll und Einfuhrumsatzsteuer auch Verbrauchsteuern an. Im Postverkehr gibt es keine Freimengen f&uuml;r Alkohol und alkoholische Getr&auml;nke.&lt;
+          special: 
+            type: boolean
+          modification_date: 
+            type: string
+            format: date-time
+            example: 2020-02-05T19:57:16Z
+      Categories:
+        type: object
+        properties:
+          data: 
+            type: object
+            properties: 
+              last_modified_date: 
+                type: string
+                format: date-time
+                example: 2021-08-21T08:38:44Z
+              inserted: 
+                type: array
+                items: 
+                  $ref: '#/components/schemas/Category'
+              updated: 
+                type: array
+                items: 
+                  $ref: '#/components/schemas/Category'
+              deleted: 
+                type: array
+                items: 
+                  type: string
+                  example: c4ca881c-1a48-4bb3-9816-6885711d0243
+      Product:
+        type: object
+        properties: 
+          id: 
+            type: string
+            example: b964e464-ca96-45fc-9fc0-d837af910b6b
+          title: 
+            type: string
+            example: Airbags auch Teile
+          category_id: 
+            type: string
+            example: 6bd185b4-c2ac-48ef-a811-8437b4cd9970
+          product_tags: 
+            type: string
+            example: 
+          image: 
+            type: string
+            format: nullable
+          description_short: 
+            type: string
+            example: Fahrzeugteile m&uuml;ssen die europ&auml;ischen Sicherheitsanforderungen erf&uuml;llen. Achten Sie darauf dass Sie keine gef&auml;lschten Markenartikel bestellen.&lt;&#x2f;p&gt;&#xa;
+          description_non_eu: 
+            type: string
+            example: Airbags m&uuml;ssen sich im Notfall in Sekundenschnelle entfalten und besonderen Belastungen standhalten. Anderenfalls stellen Sie eine enorme Unfall- und Verletzungsgefahr dar. Ebenso k&ouml;nnen Airbags die unkontrolliert oder fehlerhaft ausgel&ouml;st werden Unf&auml;lle herbeif&uuml;hren. In der EU produzierte Teile werden nach hohen europ&auml;ischen Sicherheitsanforderungen entwickelt und hergestellt. Auch im Ausland produzierte Komponenten m&uuml;ssen diese Standards erf&uuml;llen.
+          zollsatz: 
+            type: number
+            example: 0.035
+          eu_st: 
+            type: number
+            example: 0.19
+          max_flat_tax_amount: 
+            type: integer
+            format: int32
+            example: 0
+          exclude_from_calculation: 
+            type: boolean
+          modification_date: 
+            type: string
+            format: date-time
+            example: 2021-01-05T17:43:54Z
+      Products:
+        type: object
+        properties:                 
+          data: 
+            type: object
+            properties: 
+              last_modified_date: 
+                type: string
+                format: date-time
+                example: 2021-08-21T08:55:16Z
+              inserted: 
+                type: array
+                items: 
+                  $ref: '#/components/schemas/Product'
+              updated: 
+                type: array
+                items: 
+                  $ref: '#/components/schemas/Product'
+              deleted: 
+                type: array
+                items: 
+                  type: string
+                  example: c4ca881c-1a48-4bb3-9816-6885711d0243
+      Country:
+        type: object
+        properties: 
+          id: 
+            type: string
+            example: 1d7ec1fd-e57f-4f8b-a5f4-6e6576956227
+          title: 
+            type: string
+            example: Afghanistan
+          subtitle: 
+            type: string
+            example: 
+          image: 
+            type: string
+            example: https://www.bundesfinanzministerium.de/Content/DE/Apps/Items/Images/afghanistan.png?__blob=normal&v=3
+          fulltitle: 
+            type: string
+            example: Islamische Republik Afghanistan
+          code_2: 
+            type: string
+            example: AF
+          code_3: 
+            type: string
+            example: AFG
+          eu: 
+            type: boolean
+          special_zone: 
+            type: boolean
+          calc_zoll: 
+            type: boolean
+          calc_eu_st: 
+            type: boolean
+          modification_date: 
+            type: string
+            format: date-time
+            example: 2019-10-24T10:05:25Z
+      Countries:
+        type: object
+        properties:
+          data: 
+            type: object
+            properties: 
+              last_modified_date: 
+                type: string
+                format: date-time
+                example: 2021-08-21T09:02:44Z
+              inserted: 
+                type: array
+                items: 
+                  $ref: '#/components/schemas/Country'
+              updated: 
+                type: array
+                items: 
+                  $ref: '#/components/schemas/Country'
+              deleted: 
+                type: array
+                items: 
+                  type: string
+                  example: c103e373-ec9e-40b6-a996-b0ffd6c98708
+      ProductGroup:
+        type: object
+        properties: 
+          id: 
+            type: string
+            example: 71a19c6e-69ff-493f-bcf4-8dcc0729231e
+          type: 
+            type: string
+            example: alcohol
+          title: 
+            type: string
+            example: Alkohol
+          subtitle: 
+            type: string
+            example: 
+          non_eu: 
+            type: boolean
+          eu: 
+            type: boolean
+          under15: 
+            type: boolean
+          under17: 
+            type: boolean
+          over17: 
+            type: boolean
+          non_flight: 
+            type: boolean
+          flight: 
+            type: boolean
+          modification_date: 
+            type: string
+            format: date-time
+            example: 2019-10-24T10:05:32Z
+      ProductGroups:
+        type: object
+        properties:
+          data: 
+            type: object
+            properties: 
+              last_modified_date: 
+                type: string
+                format: date-time
+                example: 2021-08-21T09:10:26Z
+              inserted: 
+                type: array
+                items: 
+                   $ref: '#/components/schemas/ProductGroup'
+              updated: 
+                type: array
+                items: 
+                  $ref: '#/components/schemas/ProductGroup'
+              deleted: 
+                type: array
+                items: 
+                  type: string
+                  example: c103e373-ec9e-40b6-a996-b0ffd6c98708
+      ProductUnit:
+        type: object
+        properties: 
+          id: 
+            type: string
+            example: ae2820d0-d40f-492b-afac-fc4f198702d9
+          type: 
+            type: string
+            example: gram
+          title: 
+            type: string
+            example: g
+          modification_date: 
+            type: string
+            format: date-time
+            example: 2019-10-24T10:05:32Z
+      ProductUnits:
+        type: object
+        properties:
+          data: 
+            type: object
+            properties: 
+              last_modified_date: 
+                type: string
+                format: date-time
+                example: 2021-08-21T09:17:49Z
+              inserted: 
+                type: array
+                items: 
+                  $ref: '#/components/schemas/ProductUnit'
+              updated: 
+                type: array
+                items: 
+                  $ref: '#/components/schemas/ProductUnit'
+              deleted: 
+                type: array
+                items: 
+                  type: string
+                  example: c103e373-ec9e-40b6-a996-b0ffd6c98708
+
+        
+                
