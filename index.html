@@ -17,8 +17,8 @@
                 dom_id: "#openapi",
                 requestInterceptor: function(req) {   
                     var mapping = {
-                        "zoll.de": "https://zoll.api.proxy.bund.dev/",
-                        "www.bundesfinanzministerium.de": "https://zoll-bmf.api.proxy.bund.dev/"
+                        "zoll.de": "https://zoll.api.proxy.bund.dev",
+                        "www.bundesfinanzministerium.de": "https://zoll-bmf.api.proxy.bund.dev"
                     }
                     if(this.url !== "openapi.yaml") {
                        var url = new URL(req.url);
