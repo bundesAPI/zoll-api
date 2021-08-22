@@ -21,7 +21,7 @@
                         "www.bundesfinanzministerium.de": "https://zoll-bmf.api.proxy.bund.dev/"
                     }
                     if(this.url !== "openapi.yaml") {
-                       var url = new URL(req.url).pathname;
+                       var url = new URL(req.url);
                        req.url = mapping[url.hostname] + url.pathname;
                     }
                     return req;
