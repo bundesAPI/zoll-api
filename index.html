@@ -22,8 +22,8 @@
                     }
                     if(this.url !== "openapi.yaml") {
                        var url = new URL(req.url);
-                       console.log(url);
-                       req.url = mapping[url.hostname] + url.pathname;
+                       url.hostname = mapping[url.hostname];
+                       req.url = url.href;
                     }
                     return req;
               },
