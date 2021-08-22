@@ -14,9 +14,21 @@
         window.onload = function () {
             const ui = SwaggerUIBundle({
                 url: "openapi.yaml", 
-                dom_id: "#openapi"
+                dom_id: "#openapi",
+                requestInterceptor: function(req) {   
+                    var mapping = {
+                        "zoll.de": "https://zoll.api.proxy.bund.dev/",
+                        "www.bundesfinanzministerium.de": "https://zoll-bmf.api.proxy.bund.dev/"
+                    }
+                    if(this.url !== "openapi.yaml") {
+                       var url = new URL(req.url).pathname;
+                       req.url = mapping[url.hostname] + url.pathname;
+                    }
+                    return req;
+              },
             })
         }
     </script>
 </body>
 </html>
+   
