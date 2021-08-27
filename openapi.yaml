@@ -359,7 +359,7 @@ components:
             example: Afghanistan
           subtitle: 
             type: string
-            example: 
+            example: "Subtitle"
           image: 
             type: string
             example: https://www.bundesfinanzministerium.de/Content/DE/Apps/Items/Images/afghanistan.png?__blob=normal&v=3
