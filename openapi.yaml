@@ -300,7 +300,6 @@ components:
             example: 6bd185b4-c2ac-48ef-a811-8437b4cd9970
           product_tags: 
             type: string
-            example: 
           image: 
             type: string
             format: nullable
@@ -422,7 +421,7 @@ components:
             example: Alkohol
           subtitle: 
             type: string
-            example: 
+            example: "Subtitle"
           non_eu: 
             type: boolean
           eu: 
