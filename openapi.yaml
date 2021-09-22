@@ -250,6 +250,7 @@ components:
             example: Alkohol und alkoholische Getränke
           image: 
             type: string
+            nullable: true
             example: https://www.bundesfinanzministerium.de/Content/DE/Apps/Items/Images/alkohol.jpg?__blob=normal&v=4
           alttext: 
             type: string
