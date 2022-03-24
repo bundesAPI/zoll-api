@@ -69,9 +69,9 @@ with zoll.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = default_api.DefaultApi(api_client)
     client = "ZUP" # str |  (default to "ZUP")
-view = "renderJson[App]" # str |  (default to "renderJson[App]")
-user_agent = "zollundpost/2 CFNetwork/1220.1 Darwin/20.3.0" # str |  (default to "zollundpost/2 CFNetwork/1220.1 Darwin/20.3.0")
-last_modified_date = "" # str |  (optional) (default to "")
+    view = "renderJson[App]" # str |  (default to "renderJson[App]")
+    user_agent = "zollundpost/2 CFNetwork/1220.1 Darwin/20.3.0" # str |  (default to "zollundpost/2 CFNetwork/1220.1 Darwin/20.3.0")
+    last_modified_date = "" # str |  (optional) (default to "")
 
     try:
         # Produktkategorien
